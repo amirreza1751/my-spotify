@@ -1,54 +1,65 @@
 package com.neperia.mySpotify.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.neperia.mySpotify.enums.Genre;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.time.Duration;
+import java.util.Set;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
-public class Track {
+public class Album {
     @Id
     @GeneratedValue
     @Column(updatable = false, nullable = false)
     Long id;
 
     @Column
-    String name;
+    String title;
 
     @Column
-    Duration duration;
+    String cover;
 
     @Column
-    String path;
+    Timestamp releaseDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "album_id")
+    @JoinColumn(name = "artist_id")
     @EqualsAndHashCode.Exclude
     @JsonIgnore()
-    Album album;
+    Artist artist;
+
+    @Column
+    Genre genre;
+
+    @OneToMany(mappedBy = "album")
+    @EqualsAndHashCode.Exclude
+    Set<Track> tracks;
 
     @CreationTimestamp
     @Column(updatable = false)
     Timestamp createdAt;
+
     @UpdateTimestamp
     Timestamp updatedAt;
 
     @Override
     public String toString() {
-        return "Track{" +
+        return "Album{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", duration=" + duration +
-                ", path='" + path + '\'' +
-                ", album=" + album +
+                ", title='" + title + '\'' +
+                ", cover='" + cover + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", artist=" + artist +
+                ", genre=" + genre +
+                ", tracks=" + tracks +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
