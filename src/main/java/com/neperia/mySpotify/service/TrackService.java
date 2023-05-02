@@ -19,13 +19,13 @@ public class TrackService extends GenericService<Track> {
     }
 
     @Override
-    Page<Track> getEntities(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public Page<Track> getEntities(int pageNo, int pageSize, String sortBy, String sortDir) {
         Pageable page = getSortingPageable(pageNo, pageSize, sortBy, sortDir);
         return trackRepository.findAll(page);
     }
 
     @Override
-    Track getEntityById(Long id) {
+    public Track getEntityById(Long id) {
         return trackRepository.findById(id).orElseThrow(
                 () -> new NoSuchEntityExistsException(Track.class.getSimpleName(), id)
         );
@@ -37,7 +37,7 @@ public class TrackService extends GenericService<Track> {
     }
 
     @Override
-    void updateEntity(Long id, Track entity) {
+    public void updateEntity(Long id, Track entity) {
         Track trackFromDb = trackRepository.findById(id).orElse(null);
         if (trackFromDb == null) throw new NoSuchEntityExistsException(Track.class.getSimpleName(), id);
         trackFromDb.setName(entity.getName());
@@ -48,11 +48,11 @@ public class TrackService extends GenericService<Track> {
     }
 
     @Override
-    void deleteEntity(Long entityId) {
+    public void deleteEntity(Long entityId) {
 
     }
 
-    Track createTrack(Track track, Long albumId){
+    public Track createTrack(Track track, Long albumId){
         Album album = albumService.getEntityById(albumId);
         track.setAlbum(album);
         return insert(track);
