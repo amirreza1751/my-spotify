@@ -24,8 +24,11 @@ dependencies {
 	implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
-	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok',
+						"org.mapstruct:mapstruct-processor:1.5.3.Final"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding', version: '0.2.0'
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 }
 
 tasks.named('test') {

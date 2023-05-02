@@ -14,7 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
 public class Album {
     @Id
     @GeneratedValue

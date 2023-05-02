@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 public class AlbumService extends GenericService<Album> {
 
     private final AlbumRepository albumRepository;
+    private final ArtistService artistService;
 
-    public AlbumService(AlbumRepository albumRepository) {
+    public AlbumService(AlbumRepository albumRepository, ArtistService artistService) {
         this.albumRepository = albumRepository;
+        this.artistService = artistService;
     }
 
     @Override
@@ -53,5 +55,11 @@ public class AlbumService extends GenericService<Album> {
         Album albumFromDb = albumRepository.findById(entityId).orElse(null);
         if (albumFromDb == null) throw new NoSuchEntityExistsException(Album.class.getSimpleName(), entityId);
         albumRepository.deleteById(entityId);
+    }
+
+    Album createAlbum(Album album, Long artistId){
+        Artist artist = artistService.getEntityById(artistId);
+        album.setArtist(artist);
+        return insert(album);
     }
 }

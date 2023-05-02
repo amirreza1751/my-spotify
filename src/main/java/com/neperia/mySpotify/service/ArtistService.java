@@ -17,25 +17,25 @@ public class ArtistService extends GenericService<Artist> {
     }
 
     @Override
-    Page<Artist> getEntities(int pageNo, int pageSize, String sortBy, String sortDir) {
+    public Page<Artist> getEntities(int pageNo, int pageSize, String sortBy, String sortDir) {
         Pageable page = getSortingPageable(pageNo, pageSize, sortBy, sortDir);
         return artistRepository.findAll(page);
     }
 
     @Override
-    Artist getEntityById(Long id) {
+    public Artist getEntityById(Long id) {
         return artistRepository.findById(id).orElseThrow(
                 () -> new NoSuchEntityExistsException(Artist.class.getSimpleName(), id)
         );
     }
 
     @Override
-    Artist insert(Artist entity) {
+    public Artist insert(Artist entity) {
         return artistRepository.save(entity);
     }
 
     @Override
-    void updateEntity(Long id, Artist entity) {
+    public void updateEntity(Long id, Artist entity) {
         Artist artistFromDb = artistRepository.findById(id).orElse(null);
         if (artistFromDb == null) throw new NoSuchEntityExistsException(Artist.class.getSimpleName(), id);
         artistFromDb.setName(entity.getName());
@@ -45,7 +45,7 @@ public class ArtistService extends GenericService<Artist> {
     }
 
     @Override
-    void deleteEntity(Long entityId) {
+    public void deleteEntity(Long entityId) {
         if (entityId == null) throw new NoSuchEntityExistsException(Artist.class.getSimpleName(), null);
         Artist artistFromDb = artistRepository.findById(entityId).orElse(null);
         if (artistFromDb == null) throw new NoSuchEntityExistsException(Artist.class.getSimpleName(), entityId);

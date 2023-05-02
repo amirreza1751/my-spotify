@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class TrackService extends GenericService<Track> {
     private final TrackRepository trackRepository;
+    private final AlbumService albumService;
 
-    public TrackService(TrackRepository trackRepository) {
+    public TrackService(TrackRepository trackRepository, AlbumService albumService) {
         this.trackRepository = trackRepository;
+        this.albumService = albumService;
     }
 
     @Override
@@ -48,5 +50,11 @@ public class TrackService extends GenericService<Track> {
     @Override
     void deleteEntity(Long entityId) {
 
+    }
+
+    Track createTrack(Track track, Long albumId){
+        Album album = albumService.getEntityById(albumId);
+        track.setAlbum(album);
+        return insert(track);
     }
 }

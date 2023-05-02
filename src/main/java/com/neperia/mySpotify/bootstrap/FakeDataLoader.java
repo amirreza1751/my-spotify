@@ -35,22 +35,22 @@ public class FakeDataLoader implements CommandLineRunner {
         Track track;
         Artist artist;
         for (int k=0;k<random.ints(3, 7).findFirst().getAsInt(); k++){
-            artist = Artist.builder().name(faker.artist().name()).profilePicture("https://profile.com/artist").build();
+            artist = new Artist();
+            artist.setName(faker.artist().name());
+            artist.setProfilePicture("https://profile.com/artist");
             Set<Track> tracks = new HashSet<>();
             for (int i=0; i<random.ints(2, 5).findFirst().getAsInt(); i++){
-                Album album = Album.builder().
-                        title("Album"+i)
-                        .genre(Genre.ROCK)
-                        .cover("https://cover-path.com")
-                        .releaseDate(new Timestamp(System.currentTimeMillis()))
-                        .build();
+                Album album = new Album();
+                album.setTitle("Album"+i);
+                album.setGenre(Genre.ROCK);
+                album.setCover("https://cover-path.com");
+                album.setReleaseDate(new Timestamp(System.currentTimeMillis()));
                 album.setArtist(artist);
                 for (int j=0; j<random.ints(3, 7).findFirst().getAsInt(); j++){
-                    track = Track.builder()
-                            .name("Cool Track "+i+ "_"+j)
-                            .duration(Duration.ofMinutes(random.ints(3, 6).findFirst().getAsInt()).plusSeconds(random.ints(1, 59).findFirst().getAsInt()))
-                            .path("https://test.com/")
-                            .build();
+                    track = new Track();
+                    track.setName("Cool Track "+i+ "_"+j);
+                    track.setDuration(Duration.ofMinutes(random.ints(3, 6).findFirst().getAsInt()).plusSeconds(random.ints(1, 59).findFirst().getAsInt()));
+                    track.setPath("https://test.com/");
                     track.setAlbum(album);
                     tracks.add(track);
                 }

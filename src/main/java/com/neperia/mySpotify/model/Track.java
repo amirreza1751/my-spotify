@@ -13,7 +13,6 @@ import java.time.Duration;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
 public class Track {
     @Id
     @GeneratedValue
