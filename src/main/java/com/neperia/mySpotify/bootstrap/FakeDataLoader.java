@@ -34,16 +34,16 @@ public class FakeDataLoader implements CommandLineRunner {
         Random random = new Random();
         Track track;
         Artist artist;
-        for (int k=0;k<random.ints(3, 7).findFirst().getAsInt(); k++){
+        for (int k=0;k<random.ints(2, 4).findFirst().getAsInt(); k++){
             artist = new Artist();
             artist.setName(faker.artist().name());
-            artist.setProfilePicture("https://profile.com/artist");
+            artist.setProfilePicture("https://e7.pngegg.com/pngimages/1008/377/png-clipart-computer-icons-avatar-user-profile-avatar-heroes-black-hair-thumbnail.png");
             Set<Track> tracks = new HashSet<>();
             for (int i=0; i<random.ints(2, 5).findFirst().getAsInt(); i++){
                 Album album = new Album();
                 album.setTitle("Album"+i);
                 album.setGenre(Genre.ROCK);
-                album.setCover("https://cover-path.com");
+                album.setCover("https://static-cse.canva.com/blob/1052545/1600w-1Nr6gsUndKw.jpg");
                 album.setReleaseDate(new Timestamp(System.currentTimeMillis()));
                 album.setArtist(artist);
                 for (int j=0; j<random.ints(3, 7).findFirst().getAsInt(); j++){
