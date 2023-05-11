@@ -49,7 +49,10 @@ public class TrackService extends GenericService<Track> {
 
     @Override
     public void deleteEntity(Long entityId) {
-
+        Track trackFromDb = trackRepository.findById(entityId).orElse(null);
+        if (trackFromDb == null) throw new NoSuchEntityExistsException(Track.class.getSimpleName(), entityId);
+        trackFromDb.setAlbum(null);
+        trackRepository.delete(trackFromDb);
     }
 
     public Track createTrack(Track track, Long albumId){

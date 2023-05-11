@@ -29,6 +29,14 @@ public class AlbumDTO {
 
     Set<TrackDTO> tracks;
 
-    Duration length;
+    String length;
+
+    int numberOfTracks;
+
+    String artistName;
+
+    Long artistId;
+
+    String artistPic;
 }
 

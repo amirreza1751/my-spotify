@@ -2,6 +2,7 @@ package com.neperia.mySpotify.controller;
 
 import com.neperia.mySpotify.dto.track.TrackDTO;
 import com.neperia.mySpotify.dto.track.TrackDTO;
+import com.neperia.mySpotify.dto.track.TrackInsertDTO;
 import com.neperia.mySpotify.mapper.track.TrackMapper;
 import com.neperia.mySpotify.model.Track;
 import com.neperia.mySpotify.service.TrackService;
@@ -11,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:63342", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:63343", maxAge = 3600)
 @RestController
 @RequestMapping("/api/tracks")
 public class TrackController {
@@ -37,15 +38,15 @@ public class TrackController {
         return new ResponseEntity<>(mapper.toDto((Track) trackService.getEntityById(trackId)), HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<TrackDTO> saveTrack(@RequestBody TrackDTO trackDTO, @RequestParam() Long albumId) {
-        Track track = (Track) trackService.createTrack(mapper.toEntity(trackDTO), albumId);
+    public ResponseEntity<TrackDTO> saveTrack(@RequestBody TrackInsertDTO trackInsertDTO, @RequestParam() Long albumId) {
+        Track track = trackService.createTrack(mapper.toEntity(trackInsertDTO), albumId);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("track", "/api/tracks" + track.getId().toString());
         return new ResponseEntity<>(mapper.toDto(track), httpHeaders, HttpStatus.CREATED);
     }
     @PutMapping({"/{trackId}"})
-    public ResponseEntity<TrackDTO> updateTrack(@PathVariable("trackId") Long trackId, @RequestBody TrackDTO trackDTO) {
-        trackService.updateEntity(trackId, mapper.toEntity(trackDTO));
+    public ResponseEntity<TrackDTO> updateTrack(@PathVariable("trackId") Long trackId, @RequestBody TrackInsertDTO trackInsertDTO) {
+        trackService.updateEntity(trackId, mapper.toEntity(trackInsertDTO));
         return new ResponseEntity<>(mapper.toDto((Track) trackService.getEntityById(trackId)), HttpStatus.OK);
     }
     @DeleteMapping({"/{trackId}"})

@@ -29,6 +29,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding', version: '0.2.0'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	implementation group: 'org.json', name: 'json', version: '20230227'
 }
 
 tasks.named('test') {

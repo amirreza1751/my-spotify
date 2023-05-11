@@ -3,17 +3,24 @@ package com.neperia.mySpotify.service;
 import com.neperia.mySpotify.exception.NoSuchEntityExistsException;
 import com.neperia.mySpotify.model.Artist;
 import com.neperia.mySpotify.repository.ArtistRepository;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 public class ArtistService extends GenericService<Artist> {
 
     private final ArtistRepository artistRepository;
+    private final FileSystemStorageService storageService;
 
-    public ArtistService(ArtistRepository artistRepository) {
+
+    public ArtistService(ArtistRepository artistRepository, FileSystemStorageService storageService) {
         this.artistRepository = artistRepository;
+        this.storageService = storageService;
     }
 
     @Override
@@ -34,6 +41,15 @@ public class ArtistService extends GenericService<Artist> {
         return artistRepository.save(entity);
     }
 
+    public Artist createArtist(String name, MultipartFile profilePicture){
+        Artist artist = new Artist();
+        artist.setName(name);
+        storageService.store(profilePicture);
+        Resource savedProfilePicture = storageService.loadAsResource(profilePicture.getOriginalFilename());
+        artist.setProfilePicture("http://localhost:8080/api/files/"+ savedProfilePicture.getFilename());
+        return artistRepository.save(artist);
+    }
+
     @Override
     public void updateEntity(Long id, Artist entity) {
         Artist artistFromDb = artistRepository.findById(id).orElse(null);
@@ -50,5 +66,9 @@ public class ArtistService extends GenericService<Artist> {
         Artist artistFromDb = artistRepository.findById(entityId).orElse(null);
         if (artistFromDb == null) throw new NoSuchEntityExistsException(Artist.class.getSimpleName(), entityId);
         artistRepository.deleteById(entityId);
+    }
+
+    public List<Artist> getArtistsForTypeAhead(){
+        return artistRepository.findAll();
     }
 }

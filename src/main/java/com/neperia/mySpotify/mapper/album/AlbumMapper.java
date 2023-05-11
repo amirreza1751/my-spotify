@@ -31,6 +31,10 @@ public abstract class AlbumMapper {
         {
             temp = temp.plus(track.getDuration());
         }
-        albumDTO.setLength(temp);
+        albumDTO.setLength(temp.toString().replace("PT", "").replace("M", "M "));
+        albumDTO.setNumberOfTracks(album.getTracks().size());
+        albumDTO.setArtistName(album.getArtist().getName());
+        albumDTO.setArtistId(album.getArtist().getId());
+        albumDTO.setArtistPic(album.getArtist().getProfilePicture());
     }
 }

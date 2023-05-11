@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:63343", maxAge = 3600)
 @RequestMapping("/api/files")
 public class FileUploadController {
 
@@ -45,11 +46,16 @@ public class FileUploadController {
     }
 
     @PostMapping
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
-
+    public void handleFileUpload(@RequestParam("file") MultipartFile file) {
         storageService.store(file);
-        return file.getOriginalFilename();
+        Resource savedFile = storageService.loadAsResource(file.getOriginalFilename());
+        System.out.println(savedFile.getFilename());
+        try {
+            System.out.println(savedFile.getURI().toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(savedFile.getDescription());
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
