@@ -3,6 +3,7 @@ package com.neperia.mySpotify.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neperia.mySpotify.dto.artist.ArtistDTO;
+import com.neperia.mySpotify.dto.artist.ArtistInsertDTO;
 import com.neperia.mySpotify.mapper.artist.ArtistMapper;
 import com.neperia.mySpotify.model.Artist;
 import com.neperia.mySpotify.service.ArtistService;
@@ -59,8 +60,8 @@ public class ArtistController {
     }
 
     @PutMapping({"/{artistId}"})
-    public ResponseEntity<ArtistDTO> updateArtist(@PathVariable("artistId") Long artistId, @RequestBody ArtistDTO artistDTO) {
-        artistService.updateEntity(artistId, mapper.toEntity(artistDTO));
+    public ResponseEntity<ArtistDTO> updateArtist(@PathVariable("artistId") Long artistId, @RequestBody ArtistInsertDTO artistInsertDTO) {
+        artistService.updateEntity(artistId, mapper.toEntity(artistInsertDTO));
         return new ResponseEntity<>(mapper.toDto((Artist) artistService.getEntityById(artistId)), HttpStatus.OK);
     }
     @DeleteMapping({"/{artistId}"})

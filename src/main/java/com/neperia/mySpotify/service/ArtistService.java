@@ -55,8 +55,6 @@ public class ArtistService extends GenericService<Artist> {
         Artist artistFromDb = artistRepository.findById(id).orElse(null);
         if (artistFromDb == null) throw new NoSuchEntityExistsException(Artist.class.getSimpleName(), id);
         artistFromDb.setName(entity.getName());
-        artistFromDb.setProfilePicture(entity.getProfilePicture());
-        //todo update albums
         artistRepository.save(artistFromDb);
     }
 
