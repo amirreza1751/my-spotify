@@ -39,6 +39,7 @@ public class Album {
     Genre genre;
 
     @OneToMany(mappedBy = "album", cascade = {CascadeType.REMOVE})
+    @OrderBy("id")
     @EqualsAndHashCode.Exclude
     Set<Track> tracks;
 

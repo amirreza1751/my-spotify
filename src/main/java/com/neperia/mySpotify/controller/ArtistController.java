@@ -64,6 +64,14 @@ public class ArtistController {
         artistService.updateEntity(artistId, mapper.toEntity(artistInsertDTO));
         return new ResponseEntity<>(mapper.toDto((Artist) artistService.getEntityById(artistId)), HttpStatus.OK);
     }
+
+    @PutMapping(value = "/{artistId}/profile-picture", consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<ArtistDTO> updateArtistProfilePicture(@RequestPart("id") String artistId, @RequestPart("file") MultipartFile profilePicture) {
+        Artist artist = artistService.updateProfilePicture(artistId, profilePicture);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("artist", "/api/artists" + artist.getId().toString());
+        return new ResponseEntity<>(mapper.toDto(artist), httpHeaders, HttpStatus.CREATED);
+    }
     @DeleteMapping({"/{artistId}"})
     public ResponseEntity<?> deleteArtist(@PathVariable("artistId") Long artistId) {
         artistService.deleteEntity(artistId);

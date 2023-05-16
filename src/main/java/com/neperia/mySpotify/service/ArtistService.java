@@ -69,4 +69,13 @@ public class ArtistService extends GenericService<Artist> {
     public List<Artist> getArtistsForTypeAhead(){
         return artistRepository.findAll();
     }
+
+    public Artist updateProfilePicture(String artistId, MultipartFile profilePicture) {
+        Long id = Long.parseLong(artistId);
+        Artist artist = getEntityById(id);
+        storageService.store(profilePicture);
+        Resource savedProfilePicture = storageService.loadAsResource(profilePicture.getOriginalFilename());
+        artist.setProfilePicture("http://localhost:8080/api/files/"+ savedProfilePicture.getFilename());
+        return artistRepository.save(artist);
+    }
 }
