@@ -123,4 +123,13 @@ public class AlbumService extends GenericService<Album> {
         }
         return genreDTOList;
     }
+
+    public Album updateCover(String albumId, MultipartFile cover) {
+        Long id = Long.parseLong(albumId);
+        Album album = getEntityById(id);
+        storageService.store(cover);
+        Resource savedCover = storageService.loadAsResource(cover.getOriginalFilename());
+        album.setCover("http://localhost:8080/api/files/"+ savedCover.getFilename());
+        return albumRepository.save(album);
+    }
 }

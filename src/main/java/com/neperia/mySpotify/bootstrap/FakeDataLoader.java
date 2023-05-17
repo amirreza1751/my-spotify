@@ -39,7 +39,7 @@ public class FakeDataLoader implements CommandLineRunner {
             artist.setName(faker.artist().name());
             artist.setProfilePicture("https://i.scdn.co/image/ab6761610000e5ebc36dd9eb55fb0db4911f25dd");
             Set<Track> tracks = new HashSet<>();
-            for (int i=0; i<random.ints(2, 5).findFirst().getAsInt(); i++){
+            for (int i=0; i<random.ints(2, 4).findFirst().getAsInt(); i++){
                 Album album = new Album();
                 album.setTitle("Album"+i);
                 album.setGenre(Genre.ROCK);

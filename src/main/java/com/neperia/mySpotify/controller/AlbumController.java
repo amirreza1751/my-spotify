@@ -1,10 +1,12 @@
 package com.neperia.mySpotify.controller;
 
 import com.neperia.mySpotify.dto.album.AlbumDTO;
+import com.neperia.mySpotify.dto.artist.ArtistDTO;
 import com.neperia.mySpotify.dto.genre.GenreDTO;
 import com.neperia.mySpotify.enums.Genre;
 import com.neperia.mySpotify.mapper.album.AlbumMapper;
 import com.neperia.mySpotify.model.Album;
+import com.neperia.mySpotify.model.Artist;
 import com.neperia.mySpotify.service.AlbumService;
 import org.json.JSONObject;
 import org.springframework.data.domain.Page;
@@ -58,6 +60,14 @@ public class AlbumController {
         Album album = albumService.createAlbum(artistId, genre, albumTitle, releaseDate, albumCover);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("album", "/api/albums" + album.getId().toString());
+        return new ResponseEntity<>(mapper.toDto(album), httpHeaders, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/{albumId}/cover", consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<AlbumDTO> updateAlbumCover(@RequestPart("id") String albumId, @RequestPart("file") MultipartFile cover) {
+        Album album = albumService.updateCover(albumId, cover);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("artist", "/api/albums" + album.getId().toString());
         return new ResponseEntity<>(mapper.toDto(album), httpHeaders, HttpStatus.CREATED);
     }
     @PutMapping(value = "/{albumId}", consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE })

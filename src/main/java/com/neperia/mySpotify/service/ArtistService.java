@@ -63,6 +63,9 @@ public class ArtistService extends GenericService<Artist> {
         if (entityId == null) throw new NoSuchEntityExistsException(Artist.class.getSimpleName(), null);
         Artist artistFromDb = artistRepository.findById(entityId).orElse(null);
         if (artistFromDb == null) throw new NoSuchEntityExistsException(Artist.class.getSimpleName(), entityId);
+        for (var album : artistFromDb.getAlbums()){
+            album.setArtist(null);
+        }
         artistRepository.deleteById(entityId);
     }
 

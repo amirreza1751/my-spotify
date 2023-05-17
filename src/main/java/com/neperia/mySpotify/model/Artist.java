@@ -21,7 +21,8 @@ public class Artist {
     @Column
     String profilePicture;
 
-    @OneToMany(mappedBy = "artist")
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.REMOVE)
+    @OrderBy("releaseDate DESC")
     @EqualsAndHashCode.Exclude
     Set<Album> albums;
 
