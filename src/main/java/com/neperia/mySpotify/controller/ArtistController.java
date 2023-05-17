@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:63343", maxAge = 3600)
 @RestController
 @RequestMapping("/api/artists")
 public class ArtistController {

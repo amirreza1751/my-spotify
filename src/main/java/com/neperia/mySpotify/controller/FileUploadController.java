@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:63343", maxAge = 3600)
 @RequestMapping("/api/files")
 public class FileUploadController {
 
